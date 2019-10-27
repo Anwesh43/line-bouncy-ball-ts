@@ -74,7 +74,9 @@ class DrawingUtil {
     }
 
     static drawLineCircle(context : CanvasRenderingContext2D, size : number, scale : number) {
-        DrawingUtil.drawLine(context, size , 0, size + (w / 2 - size) * ScaleUtil.sinify(scale), 0)
+        if (scale != 0) {
+            DrawingUtil.drawLine(context, size , 0, size + (w / 2 - size) * ScaleUtil.sinify(scale), 0)
+        }
         DrawingUtil.drawCircle(context, size, 0, (size) * ScaleUtil.divideScale(scale, 1, 2))
     }
 
