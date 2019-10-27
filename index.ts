@@ -6,6 +6,7 @@ const sizeFactor : number = 2.9
 const foreColor : string = "#01579B"
 const backColor : string = "#BDBDBD"
 const nodes : number = 5
+const delay : number = 30
 
 class ScaleUtil {
 
@@ -117,6 +118,26 @@ class State {
         if (this.dir == 0) {
             this.dir = 1 - 2 * this.prevScale
             cb()
+        }
+    }
+}
+
+class Animator {
+
+    animated : boolean = false
+    interval : number
+
+    start(cb : Function) {
+        if (!this.animated) {
+            this.animated = true
+            this.interval = setInterval(cb, delay)
+        }
+    }
+
+    stop() {
+        if (this.animated) {
+            this.animated = false
+            clearInterval(this.interval)
         }
     }
 }
