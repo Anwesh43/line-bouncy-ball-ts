@@ -211,3 +211,25 @@ class LineBouncyBall {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    lbb : LineBouncyBall = new LineBouncyBall()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.lbb.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.lbb.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.lbb.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
