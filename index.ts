@@ -52,3 +52,47 @@ class Stage {
         stage.handleTap()
     }
 }
+
+class DrawingUtil {
+
+    static drawLine(context : CanvasRenderingContext2D, x1 : number, y1 : number, x2 : number, y2 : number) {
+        context.beginPath()
+        context.moveTo(x1, y1)
+        context.lineTo(x2, y2)
+        context.stroke()
+    }
+
+    static drawCircle(context : CanvasRenderingContext2D, x : number, y : number, r : number) {
+        context.beginPath()
+        context.arc(x, y, r, 0, 2 * Math.PI)
+        context.fill()
+    }
+
+    static drawLineCircle(context : CanvasRenderingContext2D, size : number, scale : number) {
+        DrawingUtil.drawLine(context, size , 0, size + (w / 2 - size) * ScaleUtil.sinify(scale), 0)
+        DrawingUtil.drawCircle(context, size, 0, (size) * ScaleUtil.divideScale(scale, 1, 2))
+    }
+
+    static drawBiLineCircle(context : CanvasRenderingContext2D, size : number, scale : number) {
+        for (var i = 0; i < 2; i++) {
+            context.save()
+            context.scale(1 - 2 * i, 1)
+            context.translate(-w / 2, 0)
+            DrawingUtil.drawLineCircle(context, size, scale)
+            context.restore()
+        }
+    }
+
+    static drawLCCNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        const gap : number = h / (nodes + 1)
+        const size : number = gap / sizeFactor
+        context.lineCap = 'round'
+        context.lineWidth = Math.min(w, h) / strokeFactor
+        context.strokeStyle = foreColor
+        context.fillStyle = foreColor
+        context.save()
+        context.translate(w / 2, gap * (i + 1))
+        DrawingUtil.drawBiLineCircle(context, size, scale)
+        context.restore()
+    }
+}
